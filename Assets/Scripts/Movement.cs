@@ -41,16 +41,16 @@ public class Movement : MonoBehaviour
 
     private void Update()
     {
-        RaycastHit2D upHit = Physics2D.BoxCast(transform.position, Vector2.one * .1f, 0, Vector2.up, .6f, obstacleLayer);
+        RaycastHit2D upHit = Physics2D.BoxCast(transform.position, Vector2.one * 0.4f, 0, Vector2.up, .3f, obstacleLayer);
         upWall = upHit.collider != null;
 
-        RaycastHit2D downHit = Physics2D.BoxCast(transform.position, Vector2.one * .1f, 0, Vector2.down, .6f, obstacleLayer);
+        RaycastHit2D downHit = Physics2D.BoxCast(transform.position, Vector2.one * 0.4f, 0, Vector2.down, .3f, obstacleLayer);
         downWall = downHit.collider != null;                                         
                                                                                      
-        RaycastHit2D leftHit = Physics2D.BoxCast(transform.position, Vector2.one * .1f, 0, Vector2.left, .6f, obstacleLayer);
+        RaycastHit2D leftHit = Physics2D.BoxCast(transform.position, Vector2.one * 0.4f, 0, Vector2.left, .3f, obstacleLayer);
         leftWall = leftHit.collider != null;
 
-        RaycastHit2D rightHit = Physics2D.BoxCast(transform.position, Vector2.one * .1f, 0, Vector2.right, .6f, obstacleLayer);
+        RaycastHit2D rightHit = Physics2D.BoxCast(transform.position, Vector2.one * 0.4f, 0, Vector2.right, .3f, obstacleLayer);
         rightWall = rightHit.collider != null;
 
         if(rigidbody.velocity.normalized ==  Vector2.right && rightWall)
@@ -83,25 +83,25 @@ public class Movement : MonoBehaviour
 
 
         // Check for arrow input and set direction based on the key
-        if (Input.GetKeyUp(KeyCode.LeftArrow)) 
+        if (Input.GetKeyUp(KeyCode.LeftArrow) && !leftWall) 
         {
             rigidbody.velocity = Vector2.left * speed;
             rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
             rigidbody.rotation = 180;
         }
-        else if (Input.GetKeyUp(KeyCode.RightArrow))
+        else if (Input.GetKeyUp(KeyCode.RightArrow) && !rightWall)
         {
             rigidbody.velocity = Vector2.right * speed;
             rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
             rigidbody.rotation = 0;
         }
-        else if (Input.GetKeyUp(KeyCode.UpArrow))
+        else if (Input.GetKeyUp(KeyCode.UpArrow) && !upWall)
         {
             rigidbody.velocity = Vector2.up * speed;
             rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
             rigidbody.rotation = 90;
         }
-        else if (Input.GetKeyUp(KeyCode.DownArrow))
+        else if (Input.GetKeyUp(KeyCode.DownArrow) && !downWall)
         {
             rigidbody.velocity = Vector2.down * speed;
             rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
