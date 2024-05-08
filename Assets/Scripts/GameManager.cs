@@ -7,8 +7,10 @@ public class GameManager : MonoBehaviour
     // Setting variables
      public Ghost[] ghosts;
      public Pacman pacman;
-     public Transform pellets;
-     public int score { get; private set; }
+    public Transform pellets;
+
+    public int ghostMultiplier { get; private set; } = 1;
+    public int score { get; private set; }
     public int lives { get; private set; }
 
     // Starting the game and running the NewGame function
@@ -47,6 +49,8 @@ public class GameManager : MonoBehaviour
     // The moving objects begins to move anain when we reset the state
     private void ResetState()
     {
+        ResetGhostMultiplier();
+
         for (int i = 0; i < this.ghosts.Length; i++)
         {
             this.ghosts[i].gameObject.SetActive(true);
@@ -79,9 +83,51 @@ public class GameManager : MonoBehaviour
     // We are adding the score points when pacman eats the ghost
     public void GhostEaten(Ghost ghost)
     {
-        SetScore(this.score + ghost.points);
+        int point = ghost.points * this.ghostMultiplier;
+        SetScore(this.score + point);
+        this.ghostMultiplier++;
     }
-    
+
+    // We are adding the score when pacman eats the pellet
+    public void PelletEaten(Pellet pellet)
+    {
+        print(this.score);
+        pellet.gameObject.SetActive(false);
+
+        SetScore(score + pellet.points);
+
+        if (!HasRemainingPellets())
+        {
+            pacman.gameObject.SetActive(false);
+            Invoke(nameof(NewRound), 3f);
+        }
+
+    }
+
+    // When the Power Pellet is eaten then the states of ghosts will change and Pacman will be able to eat them
+    public void PowerPelletEaten(PowerPellet pellet)
+    {
+        print(this.score);
+        PelletEaten(pellet);
+        CancelInvoke();
+        Invoke(nameof(ResetGhostMultiplier), pellet.duration);
+
+
+    }
+
+    private bool HasRemainingPellets()
+    {
+        foreach (Transform pellet in pellets)
+        {
+            if (pellet.gameObject.activeSelf)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     // We are setting the activity when the ghost eats pacman
     public void PacmanEaten()
     {
@@ -97,6 +143,11 @@ public class GameManager : MonoBehaviour
         {
             GameOver();
         }
+    }
+
+    private void ResetGhostMultiplier()
+    {
+        this.ghostMultiplier = 1;
     }
 
 }
