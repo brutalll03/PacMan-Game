@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Movement_Ghosts : MonoBehaviour
 {
-    public float speed = 5f;
+    public float speed = 3f;
     public LayerMask obstacleLayer;
 
     private Vector2[] directions = { Vector2.up, Vector2.down, Vector2.left, Vector2.right };
@@ -63,6 +63,8 @@ public class Movement_Ghosts : MonoBehaviour
         RaycastHit2D rightHit = Physics2D.BoxCast(transform.position, Vector2.one * 0.4f, 0, Vector2.right, .3f, obstacleLayer);
         rightWall = rightHit.collider != null;
 
+        currentDirection = GetRandomDirection();
+
         if (rigidbody.velocity.normalized == Vector2.right && rightWall)
         {
             rigidbody.velocity = Vector2.zero;
@@ -74,7 +76,6 @@ public class Movement_Ghosts : MonoBehaviour
                 rigidbody.velocity = Vector2.right * speed;
                 rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
                 rigidbody.rotation = 0;
-                currentDirection = GetRandomDirection();
             }
         }
 
@@ -89,7 +90,6 @@ public class Movement_Ghosts : MonoBehaviour
                 rigidbody.velocity = Vector2.left * speed;
                 rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
                 rigidbody.rotation = 180;
-                currentDirection = GetRandomDirection();
             }
         }
 
@@ -104,7 +104,6 @@ public class Movement_Ghosts : MonoBehaviour
                 rigidbody.velocity = Vector2.up * speed;
                 rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
                 rigidbody.rotation = 90;
-                currentDirection = GetRandomDirection();
             }
         }
 
@@ -119,16 +118,17 @@ public class Movement_Ghosts : MonoBehaviour
                 rigidbody.velocity = Vector2.down * speed;
                 rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
                 rigidbody.rotation = 270;
-                currentDirection = GetRandomDirection();
+                currentDirection = directions[currentDirection];
             }
+  
         }
-
-
     }
 
-    Vector2 GetRandomDirection()
+    int range;
+    public bool GetRandomDirection()
     {
-        return directions[Random.Range(0, directions.Length)];
+        range = Random.Range(0, directions.Length);
+        return range;
     }
 }
 
