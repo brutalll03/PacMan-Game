@@ -127,6 +127,13 @@ public class Movement_Ghosts : MonoBehaviour
 
         savedDirections.Add(currentDirection);
     }
+
+    public Vector2 Home()
+    {
+        Vector2 vector2 = new Vector2(0, 4);
+
+        return vector2;
+    }
 }
 
 
