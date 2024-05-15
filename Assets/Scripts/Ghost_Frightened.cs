@@ -21,7 +21,6 @@ public class GhostFrightened : Movement_Ghosts
         blue.enabled = true;
         white.enabled = false;
 
-        Invoke(nameof(Flash), duration / 2f);
     }
 
     public void Disable()
