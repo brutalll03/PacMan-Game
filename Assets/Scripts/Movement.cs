@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -8,6 +9,7 @@ public class Movement : MonoBehaviour
     public float speedMultiplier = 1f;
     public Vector2 initialDirection;
     public LayerMask obstacleLayer;
+    public Transform position;
 
 
     public new Rigidbody2D rigidbody { get; private set; }
@@ -29,8 +31,9 @@ public class Movement : MonoBehaviour
     {
         speedMultiplier = 1f;
         direction = initialDirection;
+        rigidbody.isKinematic = true;
         transform.position = startingPosition;
-        rigidbody.isKinematic = false;
+        rigidbody.isKinematic = false; 
         enabled = true;
     }
 
@@ -107,5 +110,10 @@ public class Movement : MonoBehaviour
             rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
             rigidbody.rotation = 270;
         }
+    }
+
+    internal void Stop()
+    {
+        rigidbody.velocity = Vector2.zero;
     }
 }

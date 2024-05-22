@@ -1,17 +1,29 @@
+using System;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    // Setting variables
-     public Ghost[] ghosts;
-     public Pacman pacman;
+// Setting variables
+    public Ghost[] ghosts;
+    public Pacman pacman;
     public Transform pellets;
+    public Transform pelletParent;
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI livesText;
 
-    public int ghostMultiplier { get; private set; } = 1;
-    public int score { get; private set; }
-    public int lives { get; private set; }
+    public int ghostMultiplier = 1;
+    public int score = 0;
+    public int lives = 3;
+
+    private void Awake()
+    {
+        if(GameManager.Instance != null)
+            return; 
+        GameManager.Instance = this;
+    }
 
     // Starting the game and running the NewGame function
     private void Start()
@@ -22,6 +34,9 @@ public class GameManager : MonoBehaviour
     // So when the game is over, to play again we click any key on keyboard
     private void Update()
     {
+        scoreText.text = "Score: " + score.ToString();
+        livesText.text = "Lives: " + lives.ToString();
+
         if(this.lives <= 0 && Input.anyKeyDown)
         {
             NewGame();
@@ -72,12 +87,31 @@ public class GameManager : MonoBehaviour
     private void SetScore(int score)
     {
         this.score = score;
+        scoreText.text = "Score: " + score.ToString();
     }
     
     // We are setting the lives number
     private void SetLives(int lives)
     {
         this.lives = lives;
+        livesText.text = "Lives: " + lives.ToString();
+    }
+
+    // We are setting the activity when the ghost eats pacman
+    public void PacmanEaten()
+    {
+        pacman.DeathSequence();
+
+        SetLives(lives - 1);
+
+        if (lives > 0)
+        {
+            Invoke(nameof(ResetState), 3f);
+        }
+        else
+        {
+            GameOver();
+        }
     }
 
     // We are adding the score points when pacman eats the ghost
@@ -91,7 +125,6 @@ public class GameManager : MonoBehaviour
     // We are adding the score when pacman eats the pellet
     public void PelletEaten(Pellet pellet)
     {
-        print(this.score);
         pellet.gameObject.SetActive(false);
 
         SetScore(score + pellet.points);
@@ -107,9 +140,13 @@ public class GameManager : MonoBehaviour
     // When the Power Pellet is eaten then the states of ghosts will change and Pacman will be able to eat them
     public void PowerPelletEaten(PowerPellet pellet)
     {
-        print(this.score);
+        for (int i = 0; i < ghosts.Length; i++)
+        {
+            ghosts[i].frightened.Enable(pellet.duration);
+        }
+
         PelletEaten(pellet);
-        CancelInvoke();
+        CancelInvoke(nameof(ResetGhostMultiplier));
         Invoke(nameof(ResetGhostMultiplier), pellet.duration);
 
 
@@ -117,7 +154,7 @@ public class GameManager : MonoBehaviour
 
     private bool HasRemainingPellets()
     {
-        foreach (Transform pellet in pellets)
+        foreach (Transform pellet in pelletParent)
         {
             if (pellet.gameObject.activeSelf)
             {
@@ -128,26 +165,13 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    // We are setting the activity when the ghost eats pacman
-    public void PacmanEaten()
-    {
-        this.pacman.gameObject.SetActive(false);
-
-        SetLives(this.lives - 1);
-
-        if(this.lives > 0)
-        {
-            Invoke(nameof(ResetState), 3.0f);
-        }
-        else
-        {
-            GameOver();
-        }
-    }
-
     private void ResetGhostMultiplier()
     {
         this.ghostMultiplier = 1;
     }
 
+    internal void Reset()
+    {
+        pacman.ResetState();
+    }
 }

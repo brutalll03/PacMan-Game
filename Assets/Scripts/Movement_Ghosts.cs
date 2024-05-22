@@ -123,7 +123,7 @@ public class Movement_Ghosts : MonoBehaviour
     public void CheckDoubleDirections()
     {
         if (savedDirections.Count > 2)
-            savedDirections.RemoveAt(savedDirections.Count+1);
+            savedDirections.RemoveAt(savedDirections.Count-1);
 
         savedDirections.Add(currentDirection);
     }

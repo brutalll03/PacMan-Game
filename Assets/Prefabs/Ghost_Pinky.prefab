@@ -83,5 +83,59 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6946091486418607419, guid: e723186da9bf61e4bac56b5c073b59b7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6849615271027613073}
   m_SourcePrefab: {fileID: 100100000, guid: e723186da9bf61e4bac56b5c073b59b7, type: 3}
+--- !u!212 &282420928945332473 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3925986892456589708, guid: e723186da9bf61e4bac56b5c073b59b7, type: 3}
+  m_PrefabInstance: {fileID: 3859782868169054581}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &600095254822607861 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4450474961605460608, guid: e723186da9bf61e4bac56b5c073b59b7, type: 3}
+  m_PrefabInstance: {fileID: 3859782868169054581}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &1902967875659301798 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3456520560257653459, guid: e723186da9bf61e4bac56b5c073b59b7, type: 3}
+  m_PrefabInstance: {fileID: 3859782868169054581}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &3693994829023766923 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 491737506896523518, guid: e723186da9bf61e4bac56b5c073b59b7, type: 3}
+  m_PrefabInstance: {fileID: 3859782868169054581}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6194082769845503054 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6946091486418607419, guid: e723186da9bf61e4bac56b5c073b59b7, type: 3}
+  m_PrefabInstance: {fileID: 3859782868169054581}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6849615271027613073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6194082769845503054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daf714152de57844ca62452bc26dd2cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 3
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  speedMultiplier: 1
+  initialDirection: {x: 0, y: 0}
+  rightWall: 0
+  leftWall: 0
+  upWall: 0
+  downWall: 0
+  body: {fileID: 282420928945332473}
+  eyes: {fileID: 600095254822607861}
+  blue: {fileID: 1902967875659301798}
+  white: {fileID: 3693994829023766923}

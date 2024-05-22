@@ -87,5 +87,50 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6946091486418607419, guid: e723186da9bf61e4bac56b5c073b59b7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8741535627732678891}
   m_SourcePrefab: {fileID: 100100000, guid: e723186da9bf61e4bac56b5c073b59b7, type: 3}
+--- !u!212 &2284928205221244456 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 491737506896523518, guid: e723186da9bf61e4bac56b5c073b59b7, type: 3}
+  m_PrefabInstance: {fileID: 1830346769774812886}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &2640782655338421334 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4450474961605460608, guid: e723186da9bf61e4bac56b5c073b59b7, type: 3}
+  m_PrefabInstance: {fileID: 1830346769774812886}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &3394969713720223578 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3925986892456589708, guid: e723186da9bf61e4bac56b5c073b59b7, type: 3}
+  m_PrefabInstance: {fileID: 1830346769774812886}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &3935782764595102725 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3456520560257653459, guid: e723186da9bf61e4bac56b5c073b59b7, type: 3}
+  m_PrefabInstance: {fileID: 1830346769774812886}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8720037428560036845 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6946091486418607419, guid: e723186da9bf61e4bac56b5c073b59b7, type: 3}
+  m_PrefabInstance: {fileID: 1830346769774812886}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8741535627732678891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8720037428560036845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daf714152de57844ca62452bc26dd2cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0
+  body: {fileID: 3394969713720223578}
+  eyes: {fileID: 2640782655338421334}
+  blue: {fileID: 3935782764595102725}
+  white: {fileID: 2284928205221244456}

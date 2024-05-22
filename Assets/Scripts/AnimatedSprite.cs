@@ -1,49 +1,105 @@
 
+using System.Threading;
 using UnityEngine;
+
 [RequireComponent(typeof(SpriteRenderer))]
-// This will allow the pacman to be animated and open it's mouth
 public class AnimatedSprite : MonoBehaviour
 {
-    public SpriteRenderer spriteRenderer { get; private set; }
-    public Sprite[] sprites;
+    public Sprite[] sprites = new Sprite[0];
+    public Sprite[] spritesDeath = new Sprite[0];
     public float animationTime = 0.25f;
-    public int animationFrame { get; private set; }
     public bool loop = true;
+    int count;
 
+    private SpriteRenderer spriteRenderer;
+    private int animationFrame;
+
+    bool isDying;
     private void Awake()
     {
-        this.spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        InvokeRepeating(nameof(Advance), this.animationTime, this.animationTime);
+        spriteRenderer.enabled = true;
     }
 
-    private void Advance()
+    private void OnDisable()
     {
+        spriteRenderer.enabled = false;
+    }
 
-        if(!this.spriteRenderer.enabled)
+    public void Start()
+    {
+        InvokeRepeating(nameof(Advance), animationTime, animationTime);
+    }
+
+    public void Advance()
+    {
+        if (isDying)
+            return;
+        if (spriteRenderer == null)
+            return;
+        if (!spriteRenderer.enabled)
         {
             return;
         }
-        this.animationFrame++;
 
-        if(this.animationFrame >= this.sprites.Length && this.loop)
+        animationFrame++;
+
+        if (animationFrame >= sprites.Length && loop)
         {
-            this.animationFrame = 0;
+            animationFrame = 0;
         }
-        if(this.animationFrame >= 0 && this.animationFrame < this.sprites.Length)
+
+        if (animationFrame >= 0 && animationFrame < sprites.Length)
         {
-            this.spriteRenderer.sprite = this.sprites[this.animationFrame];
+            spriteRenderer.sprite = sprites[animationFrame];
         }
     }
 
     public void Restart()
     {
-        this.animationFrame = -1;
+        animationFrame = -1;
 
-        Advance();
     }
 
+    public void Death()
+    {
+        isDying = true;
+        InvokeRepeating(nameof(DeathAnim), animationTime, animationTime);
+    }
+
+    private void DeathAnim()
+    {
+        
+        if (spriteRenderer == null)
+            return;
+        if (!spriteRenderer.enabled)
+        {
+            return;
+        }
+
+        animationFrame++;
+
+        if (animationFrame >= spritesDeath.Length && loop)
+        {
+            animationFrame = 0;
+            count++;
+            print(count);
+        }
+
+        if (animationFrame >= 0 && animationFrame < spritesDeath.Length)
+        {
+            spriteRenderer.sprite = spritesDeath[animationFrame];
+
+        }
+        if (count >= 1)
+        {
+            Restart();
+            GameManager.Instance.Reset();
+        }
+
+    }
 }

@@ -4,27 +4,31 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
-public class GhostFrightened : Movement_Ghosts
+public class GhostFrightened : GhostBehavior
 {
     public SpriteRenderer body;
     public SpriteRenderer eyes;
     public SpriteRenderer blue;
     public SpriteRenderer white;
-    Movement_Ghosts m = new Movement_Ghosts();
 
     private bool eaten;
 
-    public void Enable(float duration)
+    public override void Enable(float duration)
     {
+        base.Enable(duration);
+
         body.enabled = false;
         eyes.enabled = false;
         blue.enabled = true;
         white.enabled = false;
 
+        Invoke(nameof(Flash), duration / 2f);
     }
 
-    public void Disable()
+    public override void Disable()
     {
+        base.Disable();
+        GetComponent<Collider2D>().excludeLayers = GetComponent<Ghost>().layerMask;
         body.enabled = true;
         eyes.enabled = true;
         blue.enabled = false;
@@ -34,9 +38,6 @@ public class GhostFrightened : Movement_Ghosts
     private void Eaten()
     {
         eaten = true;
-
-        if (gameObject.layer == LayerMask.NameToLayer("Ghost"))
-            m.Home();
 
         body.enabled = false;
         eyes.enabled = true;
@@ -60,9 +61,13 @@ public class GhostFrightened : Movement_Ghosts
         eaten = false;
     }
 
+    private void OnDisable()
+    {
+        eaten = false;
+    }     
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("PacMan"))
         {
             if (enabled)
             {
